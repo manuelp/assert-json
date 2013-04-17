@@ -5,25 +5,30 @@
   (get m key ::nothing-here))
 
 (defn- property-not-found [property]
-  (Exception. (str "Property not found: " (name property))))
+  (Exception. (str "Property not found: " property)))
 
 (defn- wrong-property-type
   [property m-val value]
   (Exception. (str "Wrong type value for property " 
-                   (name property) ": expected " (type value) 
+                   property ": expected " (type value) 
                    ", found: " (type m-val))))
 
 (defn- wrong-property-value
   [property m-val value]
-  (Exception. (str "Wrong value for property " (name property)
+  (Exception. (str "Wrong value for property " property
                    ": expected " value
                    ", found: " m-val)))
 
-(defn assert-property [m property value]
+(defn- assert-property [m property value]
   (let [m-val (has-key m property)]
     (cond (= ::nothing-here m-val) (throw (property-not-found property))
           (not= (type m-val) (type value)) (throw (wrong-property-type property m-val value))
           (not= value m-val) (throw (wrong-property-value property m-val value))
           :default true)))
+
+(defmacro assert-json [json & body]
+  `(let [m# (parse-string ~json)] 
+     (map (fn [c#] (assert-property m# (first c#) (second c#))) 
+          (partition 2 (vector ~@body)))))
 
 
