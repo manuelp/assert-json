@@ -11,4 +11,4 @@
   :test-paths ["test/clojure"]
   :java-source-paths ["src/java"]
   :javac-options ["-target" "1.6" "-source" "1.6"]
-  :aot :all)
+  :aot [assert-json.java])

@@ -2,7 +2,8 @@
   (:use [cheshire.core :as cheshire :only [parse-string]]
         [assert-json.exceptions :only [property-not-found
                                        wrong-property-type
-                                       wrong-property-value]]))
+                                       wrong-property-value]]
+        [clojure.pprint :only [pprint]]))
 
 (defn- get-key 
   "Get a key from a map, returning the value `::nothing-here` if no such key was found."
@@ -37,7 +38,7 @@
   Properties are asserted for presence, and their values for type and equality."
   [json-string expected]
   (let [json (parse-string json-string)]
-    (map #(assert-property json (first %) (second %)) 
-         expected)))
+    (doall (map #(assert-property json (first %) (second %))
+                expected))))
 
 
