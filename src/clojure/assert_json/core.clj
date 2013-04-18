@@ -10,12 +10,17 @@
   [m key]
   (get m key ::nothing-here))
 
+(defn- same-type? 
+  [a b]
+  (or (= (type b) (type b))
+      (and (isa? a java.util.List) (isa? b java.util.List))))
+
 (defn assert-property 
   "Assert that the map `m` contains the given `property` with the desired `value` and type."
   [m property value]
   (let [m-val (get-key m property)]
     (cond (= ::nothing-here m-val) (throw (property-not-found property))
-          (not= (type m-val) (type value)) (throw (wrong-property-type property m-val value))
+          (not (same-type? m-val value)) (throw (wrong-property-type property m-val value))
           (not= value m-val) (throw (wrong-property-value property m-val value))
           :default true)))
 
