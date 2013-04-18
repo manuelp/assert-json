@@ -15,7 +15,7 @@
   (or (= (type b) (type b))
       (and (isa? a java.util.List) (isa? b java.util.List))))
 
-(defn assert-property 
+(defn- assert-property 
   "Assert that the map `m` contains the given `property` with the desired `value` and type."
   [m property value]
   (let [m-val (get-key m property)]
