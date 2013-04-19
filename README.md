@@ -2,7 +2,7 @@
 
 This is a small library useful to make assertions on the content of a JSON string. It's usable from Clojure and Java, and it may be useful for example as an aid to implement [semantic versioning](http://semver.org/) for web APIs.
 
-It uses [Cheshire](https://github.com/dakrone/cheshire) under the hood to parse a JSON string and match the resulting data structure against another one that contains expected values.
+It uses [Cheshire](https://github.com/dakrone/cheshire) under the hood to parse a JSON string and match the resulting data structure against a map that contains expected values.
 
 *Warning: this library isn't really deployed anywhere right now, coming soon...*
 
@@ -48,24 +48,26 @@ It is available a (very) small API for making assertions in the `assert_json.jav
 ```java
 import static assert_json.java.AssertJson.assertJson;
 
-public class SomeVeryImportantObject {
-@Test
-  public void shouldAssertJsonProperties() {
-    assertJson("{\"a\":1," +
-               "\"list\":[1,\"something\"]," +
-               "\"other\":{\"sub\":[42]}}", new HashMap<String, Object>() {
-      {
-        put("a", 1);
-        put("list", Arrays.asList(1, "something"));
-        put("other", new HashMap<String, Object>() {
-          {
-            put("sub", Arrays.asList(42));
-          }
-        });
-      }
-    });
+// ...
+
+  public class SomeVeryImportantObject {
+    @Test
+    public void shouldAssertJsonProperties() {
+      assertJson("{\"a\":1," +
+                 "\"list\":[1,\"something\"]," +
+                 "\"other\":{\"sub\":[42]}}", new HashMap<String, Object>() {
+        {
+          put("a", 1);
+          put("list", Arrays.asList(1, "something"));
+          put("other", new HashMap<String, Object>() {
+            {
+              put("sub", Arrays.asList(42));
+            }
+          });
+        }
+      });
+    }
   }
-}
 
 ```
 
