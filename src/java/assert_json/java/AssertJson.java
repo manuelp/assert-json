@@ -13,8 +13,6 @@ public class AssertJson {
     REQUIRE.invoke(Symbol.intern("assert-json.core"));
   }
 
-  private static final Var INTO = RT.var("clojure.core", "into");
-  private static final Var HASH_MAP = RT.var("clojure.core", "hash-map");
   private static final Var ASSERT_JSON = RT.var("assert-json.core", "assert-json");
 
   /**
@@ -25,7 +23,6 @@ public class AssertJson {
    * @param expected A map containing (property, value) pairs.
    */
   public static void assertJson(String jsonString, Map<String, Object> expected) {
-    Object expectedMap = INTO.invoke(HASH_MAP.invoke(), expected);
-    ASSERT_JSON.invoke(jsonString, expectedMap);
+    ASSERT_JSON.invoke(jsonString, expected);
   }
 }

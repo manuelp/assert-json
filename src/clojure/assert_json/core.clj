@@ -43,7 +43,7 @@
   Properties are asserted for presence, and their values for type and equality."
   [json-string expected]
   (let [json (parse-string json-string)]
-    (doall (map #(assert-property json (first %) (second %))
+    (doall (map #(assert-property json (key %) (val %))
                 expected))))
 
 
