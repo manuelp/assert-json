@@ -12,7 +12,7 @@
 
 (defn- same-type? 
   [a b]
-  (or (= (type b) (type b))
+  (or (= (type a) (type b))
       (and (isa? a java.util.List) (isa? b java.util.List))))
 
 (defn- assert-property 
