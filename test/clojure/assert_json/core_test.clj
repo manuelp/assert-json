@@ -1,16 +1,29 @@
 (ns assert-json.core-test
   (:use clojure.test
         assert-json.core
-        assert-json.exceptions))
+        assert-json.exceptions)
+  (:import (java.util HashMap ArrayList)))
 
 (deftest assert-json-successfully
   (testing "Simple values"
     (is (assert-json "{\"prop\":1}" {"prop" (int 1)}))
     (is (assert-json "{\"prop\":\"_\"}" {"prop" "_"}))
-    (is (assert-json "{\"prop\":1.2}" {"prop" 1.2})))
+    (is (assert-json "{\"prop\":1.2}" {"prop" 1.2}))
+    
+    (testing "Java data"
+      (is (assert-json "{\"prop\":1}" (doto (HashMap.)
+                                            (.put "prop" (Integer. 1)))))))
+  
   (testing "Composite values"
     (is (assert-json "{\"prop\":[1,2,3]}" {"prop" [1 2 3]}))
-    (is (assert-json "{\"prop\":{\"sub\":[42]}}" {"prop" {"sub" [42]}}))))
+    (is (assert-json "{\"prop\":{\"sub\":[42]}}" {"prop" {"sub" [42]}}))
+    
+    (testing "Java data"
+      (is (assert-json "{\"prop\":[1,2,3]}" (doto (HashMap.)
+                                                  (.put "prop" (doto (ArrayList.)
+                                                                     (.add 1)
+                                                                     (.add 2)
+                                                                     (.add 3)))))))))
 
 (deftest assert-json-with-errors
   (is (thrown-with-msg? Exception #"Property not found: _" 

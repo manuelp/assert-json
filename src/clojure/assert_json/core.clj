@@ -13,7 +13,8 @@
 (defn- same-type? 
   [a b]
   (or (= (type a) (type b))
-      (and (isa? a java.util.List) (isa? b java.util.List))))
+      (and (instance? java.util.List a) 
+           (instance? java.util.List b))))
 
 (defn- assert-property 
   "Assert that the map `m` contains the given `property` with the desired `value` and type."
@@ -45,5 +46,3 @@
   (let [json (parse-string json-string)]
     (doall (map #(assert-property json (key %) (val %))
                 expected))))
-
-
