@@ -27,7 +27,10 @@
                                                   (.put "prop" (doto (ArrayList.)
                                                                      (.add 1)
                                                                      (.add 2)
-                                                                     (.add 3)))))))))
+                                                                     (.add 3))))))
+      (is (assert-json "{\"prop\":{\"a\":1}}" (doto (HashMap.)
+                                                  (.put "prop" (doto (HashMap.)
+                                                                     (.put "a" 1)))))))))
 
 (deftest assert-json-with-errors
   (is (thrown-with-msg? Exception #"Property not found: _" 

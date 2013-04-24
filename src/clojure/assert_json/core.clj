@@ -14,11 +14,18 @@
   [m key]
   (get m key ::nothing-here))
 
-(defn- same-type? 
+(defn- both-instance? 
+  "Check if both `a` and `b` values are instances of the same `clazz` class."
+  [clazz a b]
+  (and (instance? clazz a)
+       (instance? clazz b)))
+
+(defn- same-type?
+  "Check if two values are of the same exact type, or either a `java.util.List` or `java.util.Map`."
   [a b]
   (or (= (type a) (type b))
-      (and (instance? java.util.List a) 
-           (instance? java.util.List b))))
+      (both-instance? java.util.List a b)
+      (both-instance? java.util.Map a b)))
 
 (defn- assert-property 
   "Assert that the map `m` contains the given `property` with the desired `value` and type."
