@@ -75,7 +75,7 @@ Assertions on a JSON string can be simply made passing a regular Clojure map to 
 However, pay attention to some caveats:
 
 - Properties names should be regular strings.
-- For the way Cheshire works right now (or I use if), integer numbers, when are *single values of root properties*, should be converted to `int` objects.
+- For the way Cheshire works (or I use it), integer numbers are decoded to `Integer` instances and decimal ones to `Double` instances. So pay attention to this fact and build expected property-value maps, especially in Java.
 
 ### Java
 It is available a (very) small API for making assertions in the `assert_json.java.AssertJson` class, that can be used in a JUnit test method like regular assertions:
