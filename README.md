@@ -1,6 +1,6 @@
 # assert-json
 
-This is a small library useful to make assertions on the content of a JSON string. It's usable from Clojure and Java, and it may be useful for example as an aid to implement [semantic versioning](http://semver.org/) for web APIs.
+This is a small library useful to make assertions on the content of a JSON string. It's usable from Clojure and Java, and it may be useful for example as an aid to implement checking and enforcement of [semantic versioning](http://semver.org/) for web APIs that speak JSON.
 
 It uses [Cheshire](https://github.com/dakrone/cheshire) under the hood to parse a JSON string and match the resulting data structure against a map that contains expected values.
 
@@ -17,7 +17,7 @@ It uses [Cheshire](https://github.com/dakrone/cheshire) under the hood to parse 
 ## Project Maturity ##
 This library right now should be considered *alpha quality*.
 
-It's API, could be subject to change (even if right now it features only one generic public function).
+Its API could be subject to change (even if right now it features only one generic public function).
 
 ## Supported Clojure Versions ##
 This library was built on *Clojure 1.5.1*, however it should work with Clojure 1.3 and up.
