@@ -1,4 +1,4 @@
-(defproject assert-json "0.1.0-SNAPSHOT"
+(defproject assert-json "0.1.0"
   :description "Small library to test JSON objects"
   :url "https://github.com/manuelp/assert-json"
   :license {:name "Eclipse Public License"
