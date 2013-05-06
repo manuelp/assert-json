@@ -3,18 +3,18 @@
 ;; file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 (ns assert-json.core
-  (:use [cheshire.core :as cheshire :only [parse-string]]
+  (:use [cheshire.core :as cheshire :only [parse-string generate-string]]
         [assert-json.exceptions :only [property-not-found
                                        wrong-property-type
                                        wrong-property-value]]
         [clojure.pprint :only [pprint]]))
 
-(defn- get-key 
+(defn- get-key
   "Get a key from a map, returning the value `::nothing-here` if no such key was found."
   [m key]
   (get m key ::nothing-here))
 
-(defn- both-instance? 
+(defn- both-instance?
   "Check if both `a` and `b` values are instances of the same `clazz` class."
   [clazz a b]
   (and (instance? clazz a)
@@ -27,7 +27,7 @@
       (both-instance? java.util.List a b)
       (both-instance? java.util.Map a b)))
 
-(defn- assert-property 
+(defn- assert-property
   "Assert that the map `m` contains the given `property` with the desired `value` and type."
   [m property value]
   (let [m-val (get-key m property)]
@@ -36,24 +36,27 @@
           (not= value m-val) (throw (wrong-property-value property m-val value))
           :default true)))
 
-(defmacro assert-json-values 
+(defmacro assert-json-values
   "Assert JSON properties (and corresponding values) in a convenient form.
-  
+
   Example:
-  
+
   (assert-json \"{\\\"prop\\\":1,\\\"other\\\":[1,2]}\"
                \"prop\" 1)
                \"other\" [1 2])"
   [json & body]
-  `(let [m# (parse-string ~json)] 
-     (map (fn [c#] (assert-property m# (first c#) (second c#))) 
+  `(let [m# (parse-string ~json)]
+     (map (fn [c#] (assert-property m# (first c#) (second c#)))
           (partition 2 (vector ~@body)))))
 
 (defn assert-json
-  "Assert JSON properties on a `json-string`, setting expectations via an `expected` map. 
-  
+  "Assert JSON properties on a `json-string`, setting expectations via an `expected` map.
+
   Properties are asserted for presence, and their values for type and equality."
   [json-string expected]
   (let [json (parse-string json-string)]
     (doall (map #(assert-property json (key %) (val %))
                 expected))))
+
+(defn create-json [s]
+  (generate-string s))

@@ -13,15 +13,15 @@
     (is (assert-json "{\"prop\":1}" {"prop" (int 1)}))
     (is (assert-json "{\"prop\":\"_\"}" {"prop" "_"}))
     (is (assert-json "{\"prop\":1.2}" {"prop" 1.2}))
-    
+
     (testing "Java data"
       (is (assert-json "{\"prop\":1}" (doto (HashMap.)
                                             (.put "prop" (Integer. 1)))))))
-  
+
   (testing "Composite values"
     (is (assert-json "{\"prop\":[1,2,3]}" {"prop" [1 2 3]}))
     (is (assert-json "{\"prop\":{\"sub\":[42]}}" {"prop" {"sub" [42]}}))
-    
+
     (testing "Java data"
       (is (assert-json "{\"prop\":[1,2,3]}" (doto (HashMap.)
                                                   (.put "prop" (doto (ArrayList.)
@@ -33,10 +33,29 @@
                                                                      (.put "a" 1)))))))))
 
 (deftest assert-json-with-errors
-  (is (thrown-with-msg? Exception #"Property not found: _" 
+  (is (thrown-with-msg? Exception #"Property not found: _"
                         (assert-json "{\"prop\":1}" {"_" (int 1)})))
-  (is (thrown-with-msg? Exception 
-                        #"Wrong type value for property prop: expected.*java.lang.String, found:.*java.lang.Integer" 
+  (is (thrown-with-msg? Exception
+                        #"Wrong type value for property prop: expected.*java.lang.String, found:.*java.lang.Integer"
                         (assert-json "{\"prop\":1}" {"prop" "1"})))
-  (is (thrown-with-msg? Exception #"Wrong value for property prop: expected 2, found: 1" 
+  (is (thrown-with-msg? Exception #"Wrong value for property prop: expected 2, found: 1"
                         (assert-json "{\"prop\":1}" {"prop" (int 2)}))))
+
+
+(deftest create-json-from-map
+  (testing "From Clojure"
+    (is (= "{\"a\":1,\"c\":[1,2],\"b\":\"text\",\"d\":{\"sub\":42}}"
+           (create-json {:a 1,
+                         :b "text"
+                         :c [1 2]
+                         :d {:sub 42}}))))
+  (testing "From Java"
+    (is (= "{\"d\":{\"sub\":42},\"b\":\"text\",\"c\":[1,2],\"a\":1}"
+           (create-json (doto (HashMap.)
+                          (.put "a" 1)
+                          (.put "b" "text")
+                          (.put "c" (doto (ArrayList.)
+                                      (.add 1)
+                                      (.add 2)))
+                          (.put "d" (doto (HashMap.)
+                                      (.put "sub" 42)))))))))
