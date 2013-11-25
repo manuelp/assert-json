@@ -26,7 +26,11 @@ The most recent stable Clojure release is highly recommended.
 
 ## Artifacts ##
 
-assert-json artifacts are released to [Clojars](https://clojars.org/assert-json). See that page for updated dependency configuration for both Leiningen and Maven.
+assert-json artifacts are released to [Clojars](https://clojars.org/assert-json):
+
+[![Current Version](https://clojars.org/assert-json/latest-version.svg)](https://clojars.org/assert-json)
+
+See that page for updated dependency configuration for both Leiningen and Maven.
 
 ### Leiningen ###
 
@@ -65,8 +69,8 @@ Assertions on a JSON string can be simply made passing a regular Clojure map to 
 ```clojure
 (ns ...
   (:use [assert-json.core :only [assert-json]]))
-  
-(assert-json "{\"json\":\"string\",\"num\":1,\"values\":[42,\"universe\"]}" 
+
+(assert-json "{\"json\":\"string\",\"num\":1,\"values\":[42,\"universe\"]}"
              {"json" "string"
               "num" (int 1)
               "values" [42 "universe"]})
