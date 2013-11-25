@@ -26,19 +26,13 @@ The most recent stable Clojure release is highly recommended.
 
 ## Artifacts ##
 
-assert-json artifacts are released to [Clojars](https://clojars.org/assert-json):
-
-[![Current Version](https://clojars.org/assert-json/latest-version.svg)](https://clojars.org/assert-json)
-
-See that page for updated dependency configuration for both Leiningen and Maven.
+assert-json artifacts are released to [Clojars](https://clojars.org/assert-json).
 
 ### Leiningen ###
 
 Add dependency in your *project.clj*:
 
-```clojure
-[assert-json "0.1.0"]
-```
+[![Current Version](https://clojars.org/assert-json/latest-version.svg)](https://clojars.org/assert-json)
 
 ### Maven ###
 
@@ -57,7 +51,7 @@ and then the dependency:
 <dependency>
   <groupId>assert-json</groupId>
   <artifactId>assert-json</artifactId>
-  <version>0.1.0</version>
+  <version><!-- x.y.z --></version>
 </dependency>
 ```
 
@@ -79,7 +73,7 @@ Assertions on a JSON string can be simply made passing a regular Clojure map to 
 However, pay attention to some caveats:
 
 - Properties names should be regular strings.
-- For the way Cheshire works (or I use it), integer numbers are decoded to `Integer` instances and decimal ones to `Double` instances. So pay attention to this fact and build expected property-value maps, especially in Java.
+- For the way Cheshire works (or I use it), integer numbers are decoded to `Integer` instances and decimal ones to `Double` instances. So pay attention to this fact when you build expected property-value maps, especially in Java.
 
 ### Java
 It is available a (very) small API for making assertions in the `assert_json.java.AssertJson` class, that can be used in a JUnit test method like regular assertions:
